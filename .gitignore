@@ -1,0 +1,105 @@
+# ========================
+# Python environment & cache
+# ========================
+.venv/
+env/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.log
+
+# ========================
+# Environment & secrets
+# ========================
+.env
+
+# ========================
+# Data & Database
+# ========================
+backend/data/
+!backend/data/*.sql     # simpan SQL jika ada
+*.db
+*.pkl
+*.csv
+
+# ========================
+# Models (AI)
+# ========================
+backend/backend/models/
+backend/models/
+*.pt
+*.onnx
+
+# ========================
+# Temp & Runtime
+# ========================
+tmp/
+backend/tmp/
+backend/hls/
+test_hls/
+testing/
+*.m3u8
+*.ts
+*.mp4
+*.avi
+*.mov
+
+# ========================
+# Frontend build & temp
+# ========================
+frontend/node_modules/
+frontend/.next/
+frontend/dist/
+frontend/.cache/
+frontend/temp_video.mp4
+frontend/data/
+
+# ========================
+# Scripts (optional: ignore logs, keep py/sql)
+# ========================
+scripts/*.log
+# scripts/*.py
+# scripts/*.sql
+
+# ========================
+# OS / Editor
+# ========================
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========================
+# Keep tracked files
+# ========================
+!backend/config.py
+!backend/database.py
+!backend/main.py
+!backend/models.py
+!backend/routes_hls.py
+!backend/rtsp_handler.py
+!backend/hls_handler.py
+!backend/usage_example.py
+!backend/utils/*.py
+
+!frontend/app.py
+!frontend/index.html
+!frontend/player.html
+!frontend/components/**
+
+!scripts/*.py
+!scripts/*.sql
+
+!requirements.txt
+!Dockerfile
+!docker-compose.yml
+!Makefile
+!package.json
+!README.md
+!run.py
+!test.m3u8

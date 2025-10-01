@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HLS Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- hls.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #eee;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    #video {
+      width: 80%;
+      max-width: 960px;
+      margin: 20px auto;
+      display: block;
+      background: black;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    }
+    #controls {
+      margin: 20px;
+    }
+    input[type="text"] {
+      width: 60%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #444;
+      background: #222;
+      color: #fff;
+    }
+    button {
+      padding: 8px 16px;
+      margin-left: 8px;
+      border: none;
+      border-radius: 4px;
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h1>HLS Stream Player</h1>
+  <div id="controls">
+    <input type="text" id="rtspUrl" placeholder="Enter RTSP URL (rtsp://...)" />
+    <button onclick="startStream()">Start Stream</button>
+  </div>
+  <video id="video" controls autoplay muted playsinline></video>
+
+  <script>
+    async function startStream() {
+      const rtspUrl = document.getElementById("rtspUrl").value.trim();
+      if (!rtspUrl) {
+        alert("Masukkan RTSP URL!");
+        return;
+      }
+
+      try {
+        const res = await fetch("/start-rtsp-hls", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ rtsp_url: rtspUrl })
+        });
+
+        if (!res.ok) {
+          alert("Gagal start HLS stream!");
+          return;
+        }
+
+        const data = await res.json();
+        console.log("HLS started:", data);
+
+        if (data.playlist_url) {
+          loadStream(data.playlist_url);
+        } else {
+          alert("Playlist URL tidak ditemukan di response backend!");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error saat request ke backend.");
+      }
+    }
+
+    function loadStream(url) {
+      const video = document.getElementById("video");
+
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          video.play();
+        });
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        // Safari native support
+        video.src = url;
+        video.addEventListener("loadedmetadata", () => {
+          video.play();
+        });
+      } else {
+        alert("HLS not supported in this browser.");
+      }
+    }
+  </script>
+</body>
+</html>
