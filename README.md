@@ -1,132 +1,133 @@
-# Warehouse Stock Counting System
+# 📦 Warehouse Stock Counting System
 
-A comprehensive system for counting fertilizer pallet stock in warehouses using computer vision and real-time monitoring.
+A computer vision–based system for monitoring and counting fertilizer pallet stock in warehouses using RTSP cameras and real-time analytics.
 
-## Features
+---
 
-- **Area Definition**: Define pallet areas using image upload or RTSP stream
-- **Real-time Monitoring**: Monitor stock levels via RTSP cameras or video files
-- **Stock Analytics**: Calculate empty/occupied areas with detailed statistics
-- **Web Interface**: User-friendly Streamlit frontend
-- **REST API**: FastAPI backend for integration
-- **Database Integration**: Supabase integration for data storage
+## ✨ Features
 
-## Architecture
+- **Area Definition** – Define pallet areas via image upload or RTSP stream  
+- **Real-time Monitoring** – Track stock levels from RTSP cameras or video files  
+- **Stock Analytics** – Calculate empty/occupied areas with statistics  
+- **Web Interface** – User-friendly frontend with Streamlit  
+- **REST API** – Backend powered by FastAPI  
+- **Database Integration** – Supabase support for persistent data storage  
 
-\`\`\`
+---
+
+## 🏗️ Project Structure
+
+```
 warehouse-stock-counting/
 ├── backend/                 # FastAPI backend
-│   ├── main.py             # Main API server
-│   └── models.py           # Pydantic models
-├── frontend/               # Streamlit frontend
-│   ├── app.py              # Main frontend app
-│   └── components/         # UI components
-├── utils/                  # Utility modules
-│   └── video_processor.py  # Video processing utilities
-├── scripts/                # Run scripts
-│   ├── run_backend.py      # Start backend server
-│   └── run_frontend.py     # Start frontend app
-├── data/                   # Data directory
-├── tmp/                    # Temporary files
-└── requirements.txt        # Python dependencies
-\`\`\`
+│   ├── main.py              # Main API server
+│   └── models.py            # Pydantic models
+├── frontend/                # Streamlit frontend
+│   ├── app.py               # Main frontend app
+│   └── components/          # UI components
+├── utils/                   # Utility modules
+│   └── video_processor.py   # Video processing utilities
+├── scripts/                 # Run scripts
+│   ├── run_backend.py       # Start backend server
+│   └── run_frontend.py      # Start frontend app
+├── data/                    # Data directory
+├── tmp/                     # Temporary files
+└── requirements.txt         # Python dependencies
+```
 
-## Installation
+---
+
+## ⚙️ Installation
 
 1. Install dependencies:
-\`\`\`bash
-pip install -r requirements.txt
-\`\`\`
-
+   ```bash
+   pip install -r requirements.txt
+   ```
 2. Create necessary directories:
-\`\`\`bash
-mkdir -p data tmp
-\`\`\`
+   ```bash
+   mkdir -p data tmp
+   ```
 
-## Usage
+---
+
+## 🚀 Usage
 
 ### Start the Backend Server
-\`\`\`bash
+```bash
 python scripts/run_backend.py
-\`\`\`
-The API will be available at `http://localhost:8000`
-API documentation at `http://localhost:8000/docs`
+```
+- API available at: `http://localhost:8000`  
+- Docs: `http://localhost:8000/docs`
 
 ### Start the Frontend
-\`\`\`bash
+```bash
 python scripts/run_frontend.py
-\`\`\`
-The web interface will be available at `http://localhost:8501`
+```
+- Web interface: `http://localhost:8501`
 
-### Using the System
+### Workflow
+1. **Define Areas** – Upload warehouse top-view image → draw pallet areas → save.  
+2. **Monitor Stock** – Select video/RTSP stream → start monitoring → view stock count.  
+3. **Analytics** – Check historical data, trends, and export reports.  
 
-1. **Area Definition**:
-   - Upload a top-view image of your warehouse
-   - Define rectangular areas for each pallet location
-   - Save the defined areas
+---
 
-2. **Stock Monitoring**:
-   - Choose between video file or RTSP stream monitoring
-   - Start monitoring to see real-time stock counts
-   - View analytics and statistics
+## 📡 API Endpoints
 
-3. **Analytics**:
-   - View historical data and trends
-   - Export reports and statistics
+- `POST /upload-image` → Upload warehouse image  
+- `POST /save-areas` → Save defined areas  
+- `GET /get-areas` → Retrieve saved areas  
+- `POST /start-rtsp-monitoring` → Start RTSP monitoring  
+- `POST /stop-monitoring` → Stop monitoring  
+- `WebSocket /ws/monitoring` → Real-time monitoring data  
 
-## API Endpoints
+---
 
-- `POST /upload-image` - Upload warehouse image
-- `POST /save-areas` - Save defined areas
-- `GET /get-areas` - Retrieve saved areas
-- `POST /start-rtsp-monitoring` - Start RTSP monitoring
-- `POST /stop-monitoring` - Stop monitoring
-- `WebSocket /ws/monitoring` - Real-time monitoring data
-
-## Configuration
+## 🔧 Configuration
 
 ### RTSP Stream
-Configure your RTSP camera URL in the format:
-\`\`\`
+```
 rtsp://username:password@ip:port/stream
-\`\`\`
+```
 
-### Stock Calculation Parameters
-Modify these constants in the code as needed:
-- `PALLET_HEIGHT = 4` - Number of pallet layers
-- `PALLET_CAPACITY = 20` - Sacks per pallet
-- `SACK_WEIGHT = 50` - Weight per sack (kg)
+### Stock Parameters (constants in code)
+- `PALLET_HEIGHT = 4` → Layers per pallet  
+- `PALLET_CAPACITY = 20` → Sacks per pallet  
+- `SACK_WEIGHT = 50` → Kg per sack  
 
-## Troubleshooting
+---
 
-### Common Issues
+## 🛠️ Troubleshooting
 
-1. **File path errors**: Ensure `data/` and `tmp/` directories exist
-2. **RTSP connection issues**: Check camera URL and network connectivity
-3. **OpenCV errors**: Ensure proper image/video file formats
+- **File path errors** → Ensure `data/` and `tmp/` exist  
+- **RTSP issues** → Check camera URL & network connectivity  
+- **OpenCV errors** → Validate image/video formats  
 
-### Error Fixes from Original Code
+**Fixes included in this repo**:  
+✔ Absolute paths instead of relative  
+✔ Better error handling for missing files  
+✔ Organized directory structure  
+✔ Exception handling improvements  
 
-- Fixed relative path issues by using absolute paths
-- Added proper error handling for missing files
-- Improved directory structure and file organization
-- Added proper exception handling throughout the application
+---
 
-## Database Integration
+## 🗄️ Database (Supabase)
 
-The system is prepared for Supabase integration. To enable:
+1. Create a Supabase project  
+2. Add environment variables in `.env`  
+3. Implement database models & queries in backend  
 
-1. Set up Supabase project
-2. Add environment variables for database connection
-3. Implement database models and operations
+---
 
-## Contributing
+## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+1. Fork this repo  
+2. Create a feature branch  
+3. Commit your changes  
+4. Submit a Pull Request  
 
-## License
+---
 
-This project is licensed under the MIT License.
+## 📄 License
+
+MIT License © 2025
